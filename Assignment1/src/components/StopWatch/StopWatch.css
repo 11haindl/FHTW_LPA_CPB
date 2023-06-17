@@ -1,0 +1,22 @@
+.time-display{
+    padding: 1rem;
+    font-size: 68px;
+    font-weight: bold;
+}
+
+button{
+    border: solid 2px green;
+    margin: 1rem;
+    padding: 1rem !important; 
+    background-color: green;
+    color: white;
+    font-size: 20px;
+    border-radius: 10px !important;
+    font-weight: bold;
+}
+
+button:hover{
+    background-color: white; 
+    color: black; 
+    border: 2px solid green;
+}
