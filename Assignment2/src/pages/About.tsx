@@ -1,4 +1,5 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import AboutInformation from '../components/AboutInformation/AboutInformation';
 import ExploreContainer from '../components/ExploreContainer';
 import './About.css';
 
@@ -16,7 +17,7 @@ const About: React.FC = () => {
                         <IonTitle size="large">About</IonTitle>
                     </IonToolbar>
                 </IonHeader>
-                <ExploreContainer name="About page" />
+                <AboutInformation/>
             </IonContent>
         </IonPage>
     );
