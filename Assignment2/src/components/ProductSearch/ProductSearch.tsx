@@ -1,32 +1,48 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import styles from './ProductSearch.module.css';
-import { IonButton, IonButtons, IonCol, IonGrid, IonIcon, IonInput, IonItem, IonRow } from '@ionic/react';
-import { barcodeOutline, searchOutline } from "ionicons/icons";
+import { IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonLoading, IonModal, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import { barcodeOutline, closeOutline, searchOutline } from "ionicons/icons";
 import productService from '../../services/ProductService';
+import ProductModal from '../ProductModal/ProductModal';
+import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
+import { OverlayEventDetail } from '@ionic/react/dist/types/components/react-component-lib/interfaces';
+import ProductDetail from '../ProductDetail/ProductDetail';
 interface ProductSearchProps {
     name: string;
 }
 
 const ProductSearch: FC<ProductSearchProps> = ({ name }) => {
-    const [data, setData] = useState({ data: [] });
+    const modal = useRef<HTMLIonModalElement>(null);
+    const input = useRef<HTMLIonInputElement>(null);
     const [barcode, setBarcode] = useState('');
-    const [product, setProduct] = useState();
+    const [productData, setProductData] = useState("");
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [err, setErr] = useState('');
+
+    const [message, setMessage] = useState(
+        'This modal example uses triggers to automatically open a modal when the button is clicked.'
+    );
+
+    function onWillDismiss(ev: CustomEvent<OverlayEventDetail>) {
+        setIsModalOpen(false);
+    }
 
     const handleClick = async () => {
         setIsLoading(true);
 
         productService.getProductByBarcode(barcode)
             .then(({ data }) => {
-                setProduct(data.product);
+                setProductData(JSON.stringify(data));
+                setIsModalOpen(true);
             })
             .catch((error) => {
                 console.log(error);
+            }).finally(() => {
+                setIsLoading(false);
             });
     };
-
-    console.log(product);
 
     // barcode sample: 90169069
 
@@ -40,7 +56,7 @@ const ProductSearch: FC<ProductSearchProps> = ({ name }) => {
                         </IonItem>
                     </IonCol>
                     <IonCol size="4">
-                        <IonButton onClick={handleClick}>
+                        <IonButton id="search-button" onClick={handleClick}>
                             <IonIcon slot="icon-only" icon={searchOutline}></IonIcon>
                         </IonButton>
                         <IonButton>
@@ -48,7 +64,21 @@ const ProductSearch: FC<ProductSearchProps> = ({ name }) => {
                         </IonButton>
                     </IonCol>
                 </IonRow>
+                <IonLoading isOpen={isLoading} message="Loading..." spinner="circles"></IonLoading>
             </IonGrid>
+            <IonModal ref={modal} isOpen={isModalOpen} onWillDismiss={(ev) => onWillDismiss(ev)}>
+                <IonHeader>
+                    <IonToolbar>
+                        <IonTitle>Produkt</IonTitle>
+                        <IonButtons slot="end">
+                            <IonButton strong={true} onClick={() => modal.current?.dismiss()}>
+                                <IonIcon slot='icon-only' icon={closeOutline}></IonIcon>
+                            </IonButton>
+                        </IonButtons>
+                    </IonToolbar>
+                </IonHeader>
+                <ProductDetail productData={productData}/>
+            </IonModal>
         </div>
     );
 };
