@@ -1,5 +1,6 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
+import FavouriteProductList from '../components/FavouriteProductList/FavouriteProductList';
 import './Favourite.css';
 
 const Favourite: React.FC = () => {
@@ -11,12 +12,7 @@ const Favourite: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Favourite</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <ExploreContainer name="Favourite page" />
+        <FavouriteProductList/>
       </IonContent>
     </IonPage>
   );

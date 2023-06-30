@@ -1,9 +1,6 @@
 import { IonButton, IonButtons, IonContent, IonIcon, IonImg, IonItem, IonLabel, IonText } from '@ionic/react';
 import { heart } from 'ionicons/icons';
 import { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { store } from '../../app/store';
-import { Product, addFavouriteProduct, favouriteProductSelector } from "../../features/favouriteProducts/favouriteProductSlice";
 import styles from './ProductDetail.module.css';
 
 interface ProductDetailProps {
@@ -13,25 +10,14 @@ interface ProductDetailProps {
 const ProductDetail: React.FC<ProductDetailProps> = (productData) => {
   const data = JSON.parse(productData.productData);
   const [isProductInfoAvailable, setIsProductInfoAvailable] = useState(false);
-  const [favouriteProducts, setFavouriteProducts] = useState<Array<Product>>([]);
-  const selectedProduct = useAppSelector(favouriteProductSelector);
-  const dispatch = useAppDispatch();
+  const storedFavourites = localStorage.getItem("favouriteProducts");
+  const favouritesJSON = (storedFavourites !== "" && storedFavourites !== null)  ? JSON.parse(storedFavourites) : [];
 
   useEffect(() => {
     if (data.status === 1) {
       setIsProductInfoAvailable(true);
     }
   }, [isProductInfoAvailable]);
-
-  useEffect(() => {
-    setFavouriteProducts(selectedProduct);
-    return () => {
-      console.log("component unmounting...");
-    };
-  }, [selectedProduct]);
-
-  const state = store.getState();
-  console.log(state);
 
   function getProductName() {
     if (data.product.product_name && data.product.product_name !== "") {
@@ -50,7 +36,8 @@ const ProductDetail: React.FC<ProductDetailProps> = (productData) => {
       barcode: data.code,
       name: getProductName(),
     };
-    dispatch(addFavouriteProduct(newFavouriteProduct));
+    favouritesJSON.push(newFavouriteProduct);
+    localStorage.setItem("favouriteProducts", JSON.stringify(favouritesJSON));
   }
 
   return (
