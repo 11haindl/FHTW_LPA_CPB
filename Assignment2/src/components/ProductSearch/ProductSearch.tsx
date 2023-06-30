@@ -1,18 +1,16 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styles from './ProductSearch.module.css';
 import { IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonLoading, IonModal, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
 import { barcodeOutline, closeOutline, searchOutline } from "ionicons/icons";
-import productService from '../../services/ProductService';
-import ProductModal from '../ProductModal/ProductModal';
-import ReactDOM from 'react-dom';
-import { createRoot } from 'react-dom/client';
+import ProductService from '../../services/ProductService';
 import { OverlayEventDetail } from '@ionic/react/dist/types/components/react-component-lib/interfaces';
 import ProductDetail from '../ProductDetail/ProductDetail';
+
 interface ProductSearchProps {
     name: string;
 }
 
-const ProductSearch: FC<ProductSearchProps> = ({ name }) => {
+const ProductSearch: React.FC<ProductSearchProps> = ({ name }) => {
     const modal = useRef<HTMLIonModalElement>(null);
     const input = useRef<HTMLIonInputElement>(null);
     const [barcode, setBarcode] = useState('');
@@ -32,7 +30,7 @@ const ProductSearch: FC<ProductSearchProps> = ({ name }) => {
     const handleClick = async () => {
         setIsLoading(true);
 
-        productService.getProductByBarcode(barcode)
+        ProductService.getProductByBarcode(barcode)
             .then(({ data }) => {
                 setProductData(JSON.stringify(data));
                 setIsModalOpen(true);

@@ -1,9 +1,11 @@
+import { useState } from "react";
 import axios from "../api";
 
-const productService = {
-    getProductByBarcode: (barcode: string) => {
-        return axios.get(`/product/${barcode}.json`);
-    }
-}
+const ProductService = {
 
-export default productService;
+  getProductByBarcode: (barcode: string) => {
+    return axios.get(`/product/${barcode}.json`);
+  },
+};
+
+export default ProductService;

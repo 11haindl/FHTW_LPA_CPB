@@ -1,5 +1,9 @@
-import { IonContent, IonImg, IonItem, IonLabel, IonText } from '@ionic/react';
+import { IonButton, IonButtons, IonContent, IonIcon, IonImg, IonItem, IonLabel, IonText } from '@ionic/react';
+import { heart } from 'ionicons/icons';
 import { useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { store } from '../../app/store';
+import { Product, addFavouriteProduct, favouriteProductSelector } from "../../features/favouriteProducts/favouriteProductSlice";
 import styles from './ProductDetail.module.css';
 
 interface ProductDetailProps {
@@ -9,14 +13,25 @@ interface ProductDetailProps {
 const ProductDetail: React.FC<ProductDetailProps> = (productData) => {
   const data = JSON.parse(productData.productData);
   const [isProductInfoAvailable, setIsProductInfoAvailable] = useState(false);
-
-  console.log(data);
+  const [favouriteProducts, setFavouriteProducts] = useState<Array<Product>>([]);
+  const selectedProduct = useAppSelector(favouriteProductSelector);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (data.status === 1) {
       setIsProductInfoAvailable(true);
     }
   }, [isProductInfoAvailable]);
+
+  useEffect(() => {
+    setFavouriteProducts(selectedProduct);
+    return () => {
+      console.log("component unmounting...");
+    };
+  }, [selectedProduct]);
+
+  const state = store.getState();
+  console.log(state);
 
   function getProductName() {
     if (data.product.product_name && data.product.product_name !== "") {
@@ -28,6 +43,14 @@ const ProductDetail: React.FC<ProductDetailProps> = (productData) => {
     } else {
       return "";
     }
+  }
+
+  function handleAddFavouriteProduct() {
+    const newFavouriteProduct = {
+      barcode: data.code,
+      name: getProductName(),
+    };
+    dispatch(addFavouriteProduct(newFavouriteProduct));
   }
 
   return (
@@ -61,6 +84,12 @@ const ProductDetail: React.FC<ProductDetailProps> = (productData) => {
             <IonLabel position="stacked">Bild:</IonLabel>
             <IonImg src={data.product.image_front_url}></IonImg>
           </IonItem>
+          <IonButtons>
+            <IonButton onClick={handleAddFavouriteProduct}>
+              <IonIcon slot='start' icon={heart}></IonIcon>
+              zu Favouriten hinzufügen
+            </IonButton>
+          </IonButtons>
         </>
         :
         <IonItem>
