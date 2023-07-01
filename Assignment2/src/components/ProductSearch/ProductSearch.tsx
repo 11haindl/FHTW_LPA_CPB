@@ -1,8 +1,9 @@
 import React, { useRef, useState } from 'react';
 import styles from './ProductSearch.module.css';
 import { IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonLoading, IonModal, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
-import { barcodeOutline, closeOutline, searchOutline } from "ionicons/icons";
+import { barcodeOutline, closeOutline, searchOutline, star } from "ionicons/icons";
 import ProductModal from '../ProductModal/ProductModal';
+import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 
 interface ProductSearchProps { }
 
@@ -24,6 +25,28 @@ const ProductSearch: React.FC<ProductSearchProps> = () => {
         setIsLoading(!isDataLoaded);
     }
 
+    const startScan = async () => {
+        // Check camera permission
+        // This is just a simple example, check out the better checks below
+        await BarcodeScanner.checkPermission({ force: true });
+      
+        // make background of WebView transparent
+        // note: if you are using ionic this might not be enough, check below
+        BarcodeScanner.hideBackground();
+      
+        const result = await BarcodeScanner.startScan(); // start scanning and wait for a result
+      
+        // if the result has content
+        if (result.hasContent) {
+          console.log(result.content); // log the raw scanned content
+        }
+      };
+
+      const stopScan = () => {
+        BarcodeScanner.showBackground();
+        BarcodeScanner.stopScan();
+      };
+
 
     // barcode sample: 90169069
 
@@ -40,7 +63,7 @@ const ProductSearch: React.FC<ProductSearchProps> = () => {
                         <IonButton id="search-button" onClick={handleClick}>
                             <IonIcon slot="icon-only" icon={searchOutline}></IonIcon>
                         </IonButton>
-                        <IonButton>
+                        <IonButton id="scanner-button" onClick={startScan} >
                             <IonIcon slot="icon-only" icon={barcodeOutline}></IonIcon>
                         </IonButton>
                     </IonCol>
