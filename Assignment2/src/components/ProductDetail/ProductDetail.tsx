@@ -5,19 +5,34 @@ import styles from './ProductDetail.module.css';
 
 interface ProductDetailProps {
   productData: string;
+  wasScanned: boolean
 }
 
-const ProductDetail: React.FC<ProductDetailProps> = (productData) => {
+const ProductDetail: React.FC<ProductDetailProps> = (productData, wasScanned) => {
   const data = JSON.parse(productData.productData);
   const [isProductInfoAvailable, setIsProductInfoAvailable] = useState(false);
   const storedFavourites = localStorage.getItem("favouriteProducts");
-  const favouritesJSON = (storedFavourites !== "" && storedFavourites !== null)  ? JSON.parse(storedFavourites) : [];
+  const favouritesJSON: { barcode: string, name: string }[] = (storedFavourites !== "" && storedFavourites !== null) ? JSON.parse(storedFavourites) : [];
+  const scannedProducts = localStorage.getItem("scannedProducts");
+  const scannedProductsJSON: { barcode: string, name: string }[] = (scannedProducts !== "" && scannedProducts !== null) ? JSON.parse(scannedProducts) : [];
 
   useEffect(() => {
     if (data.status === 1) {
       setIsProductInfoAvailable(true);
     }
   }, [isProductInfoAvailable]);
+
+  useEffect(() => {
+    console.log("scanned!");
+    if(wasScanned && data.status === 1){
+      const newScannedProduct = {
+        barcode: data.code,
+        name: getProductName(),
+      };
+      scannedProductsJSON.push(newScannedProduct);
+      localStorage.setItem("scannedProducts", JSON.stringify(scannedProductsJSON));
+    }
+  }, [wasScanned, data.status]);
 
   function getProductName() {
     if (data.product.product_name && data.product.product_name !== "") {
@@ -31,13 +46,29 @@ const ProductDetail: React.FC<ProductDetailProps> = (productData) => {
     }
   }
 
+  function checkForDuplicates() {
+    let foundDuplicate = false;
+    for (let value of Object.values(favouritesJSON)) {
+      if (data.code === value.barcode) {
+        foundDuplicate = true;
+        break;
+      }
+    }
+    return foundDuplicate;
+  }
+
   function handleAddFavouriteProduct() {
-    const newFavouriteProduct = {
-      barcode: data.code,
-      name: getProductName(),
-    };
-    favouritesJSON.push(newFavouriteProduct);
-    localStorage.setItem("favouriteProducts", JSON.stringify(favouritesJSON));
+    const isDuplicate = checkForDuplicates();
+    console.log(isDuplicate);
+    if (!isDuplicate) {
+      const newFavouriteProduct = {
+        barcode: data.code,
+        name: getProductName(),
+      };
+      favouritesJSON.push(newFavouriteProduct);
+      localStorage.setItem("favouriteProducts", JSON.stringify(favouritesJSON));
+      console.log("added Favourite");
+    }
   }
 
   return (

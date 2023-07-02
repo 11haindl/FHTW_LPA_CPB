@@ -93,7 +93,7 @@ const ProductSearch: React.FC<ProductSearchProps> = () => {
       </IonGrid>
       {
         isModalTriggered ?
-          <ProductModal barcode={barcode} onModalDismiss={handleModalDismiss} onDataLoaded={handleLoading} />
+          <ProductModal barcode={barcode} onModalDismiss={handleModalDismiss} onDataLoaded={handleLoading} wasScanned={true}/>
           :
           null
       }

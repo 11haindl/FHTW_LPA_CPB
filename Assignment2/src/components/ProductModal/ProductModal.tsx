@@ -10,9 +10,10 @@ interface ProductModalProps {
   barcode: string;
   onModalDismiss: (isModalOpen: boolean) => void;
   onDataLoaded: (isDataLoaded: boolean) => void;
+  wasScanned: boolean;
 }
 
-const ProductModal: React.FC<ProductModalProps> = ({ barcode, onModalDismiss, onDataLoaded }) => {
+const ProductModal: React.FC<ProductModalProps> = ({ barcode, onModalDismiss, onDataLoaded, wasScanned }) => {
   const modal = useRef<HTMLIonModalElement>(null);
   const [productData, setProductData] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -54,7 +55,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ barcode, onModalDismiss, on
             </IonButtons>
           </IonToolbar>
         </IonHeader>
-        <ProductDetail productData={productData} />
+        <ProductDetail productData={productData} wasScanned={wasScanned}/>
         <IonLoading isOpen={isLoading} message="Loading..." spinner="circles"></IonLoading>
       </IonModal>
     </>

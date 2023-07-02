@@ -1,18 +1,15 @@
-import React, { FC, useEffect, useState } from 'react';
-import styles from './FavouriteProductList.module.css';
+import React, { FC, useState } from 'react';
 import { IonContent, IonItem, IonLabel, IonList, IonLoading } from '@ionic/react';
 import { Product } from '../../features/products';
 import ProductModal from '../ProductModal/ProductModal';
 
-interface FavouriteProductListProps { }
+interface HistoryProps {}
 
-const FavouriteProductList: React.FC<FavouriteProductListProps> = () => {
-  const storedFavourites = JSON.parse(localStorage.getItem("favouriteProducts")!);
+const History: React.FC<HistoryProps> = () => {
+  const history = JSON.parse(localStorage.getItem("scannedProducts")!);
   const [selectedBarcode, setSelectedBarcode] = useState("");
   const [isModalTriggered, setIsModalTriggered] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  console.log(storedFavourites);
 
   const handleClick = async (barcode: string) => {
     setSelectedBarcode(barcode)
@@ -32,9 +29,9 @@ const FavouriteProductList: React.FC<FavouriteProductListProps> = () => {
 
   return (
     <>
-      {(storedFavourites !== null && storedFavourites.length > 0) ?
+      {(history !== null && history.length > 0) ?
         <IonList>
-          {storedFavourites.map((product: Product) => (
+          {history.map((product: Product) => (
             <IonItem key={product.barcode} onClick={() => handleClick(product.barcode)}>
               <IonLabel>{product.name}</IonLabel>
             </IonItem>
@@ -55,4 +52,4 @@ const FavouriteProductList: React.FC<FavouriteProductListProps> = () => {
   );
 }
 
-export default FavouriteProductList;
+export default History;

@@ -1,22 +1,18 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
 import './Products.css';
+import History from '../components/History/History'
 
 const Products: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Products</IonTitle>
+          <IonTitle>Produkte - History</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Products</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <ExploreContainer name="Products page" />
+        <History/>
       </IonContent>
     </IonPage>
   );

@@ -16,7 +16,7 @@ import {
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, square, triangle } from 'ionicons/icons';
+import { ellipse, fileTrayFull, home, information, square, star, triangle } from 'ionicons/icons';
 import Home from './pages/Home';
 import Favourite from './pages/Favourite';
 import Products from './pages/Products';
@@ -76,19 +76,19 @@ const App: React.FC = () => (
         </IonRouterOutlet>
         <IonTabBar slot="bottom">Home
           <IonTabButton tab="home" href="/home">
-            <IonIcon aria-hidden="true" icon={triangle} />
+            <IonIcon aria-hidden="true" icon={home} />
             <IonLabel>Home</IonLabel>
           </IonTabButton>
           <IonTabButton tab="favourite" href="/favourite">
-            <IonIcon aria-hidden="true" icon={ellipse} />
+            <IonIcon aria-hidden="true" icon={star} />
             <IonLabel>Favourite</IonLabel>
           </IonTabButton>
           <IonTabButton tab="products" href="/products">
-            <IonIcon aria-hidden="true" icon={square} />
+            <IonIcon aria-hidden="true" icon={fileTrayFull} />
             <IonLabel>Products</IonLabel>
           </IonTabButton>
           <IonTabButton tab="about" href="/about">
-            <IonIcon aria-hidden="true" icon={square} />
+            <IonIcon aria-hidden="true" icon={information} />
             <IonLabel>About</IonLabel>
           </IonTabButton>
         </IonTabBar>
