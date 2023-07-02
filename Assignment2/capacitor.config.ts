@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
+  appId: 'com.shaindl.cpb.assignment2',
   appName: 'Assignment2',
   webDir: 'dist',
   server: {

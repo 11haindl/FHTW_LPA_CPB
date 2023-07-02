@@ -17,7 +17,7 @@ const Home: React.FC = () => {
             <IonTitle size="large">Home</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <ProductSearch name="Search page"></ProductSearch>
+        <ProductSearch></ProductSearch>
       </IonContent>
     </IonPage>
   );

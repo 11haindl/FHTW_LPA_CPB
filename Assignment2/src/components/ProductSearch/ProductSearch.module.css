@@ -1,1 +1,7 @@
-.ProductSearch {}
+.hideBg::part(background){
+    opacity: 0;
+}
+
+.scanner-active {
+    border: solid 1px hotpink;
+  }

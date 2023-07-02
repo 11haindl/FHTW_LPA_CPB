@@ -1,0 +1,5 @@
+.content-stop::part(background) {
+    opacity: 0px;
+    --background: transparent;
+    --ion-background-color: transparent;
+}
