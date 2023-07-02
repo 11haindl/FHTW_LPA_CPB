@@ -50,15 +50,13 @@ const ProductSearch: React.FC<ProductSearchProps> = () => {
     }
   }, []);
 
-  const prepare = () => {
-    BarcodeScanner.prepare();
-  };
 
   const startScan = async () => {
     document.querySelector("body")?.classList.add('qrscanner');
     BarcodeScanner.hideBackground();
     const result = await BarcodeScanner.startScan();
     if (result.hasContent) {
+      setBarcode(result.content);
       console.log(result.content);
       document.querySelector("body")?.classList.remove('qrscanner');
     }
