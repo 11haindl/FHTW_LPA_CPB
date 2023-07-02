@@ -1,16 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonLoading, IonModal, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonLoading, IonModal, IonRow, IonText, IonTitle, IonToast, IonToolbar } from '@ionic/react';
 import { barcodeOutline, closeOutline, searchOutline, star } from "ionicons/icons";
 import ProductModal from '../ProductModal/ProductModal';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
+import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
+import { Haptics } from '@capacitor/haptics';
 
-interface ProductSearchProps {}
+interface ProductSearchProps { }
 
 const ProductSearch: React.FC<ProductSearchProps> = () => {
   const [barcode, setBarcode] = useState('');
   const [isModalTriggered, setIsModalTriggered] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isScannerActive, setIsScannerActive] = useState(false);
+  const [isToastOpen, setIsToastOpen] = useState(false);
+  const toastMessage = "Barcode konnte nicht gescannt werden. Bitte versuchen Sie es nochmal, oder verwenden sie einen anderen Barcode."
   const [err, setErr] = useState<string>();
 
 
@@ -56,19 +60,19 @@ const ProductSearch: React.FC<ProductSearchProps> = () => {
     BarcodeScanner.hideBackground();
     const result = await BarcodeScanner.startScan();
     if (result.hasContent) {
+      await Haptics.vibrate();
       setBarcode(result.content);
-      console.log(result.content);
       document.querySelector("body")?.classList.remove('qrscanner');
+      handleClick();
+    } else {
+      setIsToastOpen(true);
     }
   };
-
-  
-
 
   // barcode sample: 90169069
 
   return (
-    <div className="container">
+    <div id="home-container" className="container">
       <IonGrid>
         <IonRow>
           <IonCol size="8">
@@ -91,8 +95,9 @@ const ProductSearch: React.FC<ProductSearchProps> = () => {
         isModalTriggered ?
           <ProductModal barcode={barcode} onModalDismiss={handleModalDismiss} onDataLoaded={handleLoading} />
           :
-          <></>
+          null
       }
+      <IonToast position='middle' isOpen={isToastOpen} message={toastMessage} duration={5000} onDidDismiss={() => setIsToastOpen(false)}></IonToast>
     </div >
   );
 };
