@@ -235,13 +235,6 @@ http://ionicframework.com/docs/theming/ */
   }
 }
 
-.scanner-active {
-  border: solid 1px hotpink;
-  --background: transparent;
-  --ion-background-color: transparent;
-  opacity: 0;
-}
-
 .scanner-ui {
   display: none;
 }
@@ -262,8 +255,4 @@ body.qrscanner .scanner-ui {
 
 body.qrscanner .scanner-hide {
   visibility: hidden;
-}
-
-.hideBg::part(background){
-  opacity: 0;
 }
