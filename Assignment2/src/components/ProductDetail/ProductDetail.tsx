@@ -1,7 +1,6 @@
 import { IonButton, IonButtons, IonContent, IonIcon, IonImg, IonItem, IonLabel, IonText } from '@ionic/react';
 import { heart } from 'ionicons/icons';
 import { useEffect, useState } from 'react';
-import styles from './ProductDetail.module.css';
 
 interface ProductDetailProps {
   productData: string;

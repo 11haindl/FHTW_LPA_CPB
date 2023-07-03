@@ -6,7 +6,6 @@ import {
   IonHeader,
   IonIcon,
   IonLabel,
-  IonPage,
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
@@ -16,7 +15,7 @@ import {
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, fileTrayFull, home, information, square, star, triangle } from 'ionicons/icons';
+import { fileTrayFull, home, information, star } from 'ionicons/icons';
 import Home from './pages/Home';
 import Favourite from './pages/Favourite';
 import Products from './pages/Products';

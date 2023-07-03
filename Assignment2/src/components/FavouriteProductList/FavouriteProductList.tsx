@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useState } from 'react';
-import styles from './FavouriteProductList.module.css';
 import { IonContent, IonItem, IonLabel, IonList, IonLoading } from '@ionic/react';
 import { Product } from '../../features/products';
 import ProductModal from '../ProductModal/ProductModal';
@@ -49,7 +48,7 @@ const FavouriteProductList: React.FC<FavouriteProductListProps> = () => {
       {isModalTriggered ?
         <ProductModal barcode={selectedBarcode} onModalDismiss={handleModalDismiss} onDataLoaded={handleLoading} wasScanned={false}/>
         :
-        <></>
+        null
       }
     </>
   );

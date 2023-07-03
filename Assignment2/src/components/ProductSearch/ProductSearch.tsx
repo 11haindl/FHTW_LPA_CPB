@@ -1,10 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonLoading, IonModal, IonRow, IonText, IonTitle, IonToast, IonToolbar } from '@ionic/react';
-import { barcodeOutline, closeOutline, searchOutline, star } from "ionicons/icons";
+import { IonButton, IonCol, IonGrid, IonIcon, IonInput, IonItem, IonLoading, IonRow, IonToast } from '@ionic/react';
+import { barcodeOutline, searchOutline } from "ionicons/icons";
 import ProductModal from '../ProductModal/ProductModal';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
-import ReactDOM from 'react-dom';
-import { createRoot } from 'react-dom/client';
 import { Haptics } from '@capacitor/haptics';
 
 interface ProductSearchProps { }
@@ -44,6 +42,7 @@ const ProductSearch: React.FC<ProductSearchProps> = () => {
         return false;
       } catch (error: any) {
         setErr(error.message);
+        console.log(err);
       }
     };
 

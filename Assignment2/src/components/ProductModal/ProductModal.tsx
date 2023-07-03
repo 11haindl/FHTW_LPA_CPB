@@ -1,10 +1,9 @@
 import { IonButton, IonButtons, IonHeader, IonIcon, IonLoading, IonModal, IonTitle, IonToast, IonToolbar } from '@ionic/react';
 import { OverlayEventDetail } from '@ionic/react/dist/types/components/react-component-lib/interfaces';
 import { closeOutline } from 'ionicons/icons';
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import ProductService from '../../services/ProductService';
 import ProductDetail from '../ProductDetail/ProductDetail';
-import styles from './ProductModal.module.css';
 
 interface ProductModalProps {
   barcode: string;
@@ -18,7 +17,6 @@ const ProductModal: React.FC<ProductModalProps> = ({ barcode, onModalDismiss, on
   const [productData, setProductData] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isProductInfoAvailable, setIsProductInfoAvailable] = useState(false);
 
   if (!isModalOpen) {
     ProductService.getProductByBarcode(barcode)
@@ -29,7 +27,6 @@ const ProductModal: React.FC<ProductModalProps> = ({ barcode, onModalDismiss, on
       .catch((error) => {
         console.log(error);
         onDataLoaded(true);
-        setIsProductInfoAvailable(false);
       }).finally(() => {
         setIsModalOpen(true);
         onDataLoaded(true);
@@ -38,7 +35,6 @@ const ProductModal: React.FC<ProductModalProps> = ({ barcode, onModalDismiss, on
 
   function onWillDismiss(ev: CustomEvent<OverlayEventDetail>) {
     setIsModalOpen(false);
-    setIsProductInfoAvailable(false);
     onModalDismiss(false);
   }
 

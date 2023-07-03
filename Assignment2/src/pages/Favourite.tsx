@@ -1,5 +1,4 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
 import FavouriteProductList from '../components/FavouriteProductList/FavouriteProductList';
 import './Favourite.css';
 

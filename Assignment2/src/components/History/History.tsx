@@ -46,7 +46,7 @@ const History: React.FC<HistoryProps> = () => {
       {isModalTriggered ?
         <ProductModal barcode={selectedBarcode} onModalDismiss={handleModalDismiss} onDataLoaded={handleLoading} wasScanned={false}/>
         :
-        <></>
+        null
       }
     </>
   );
